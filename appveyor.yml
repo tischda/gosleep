@@ -22,16 +22,17 @@ install:
 
 build_script:
   - cd %APPVEYOR_BUILD_FOLDER%
-  - go build -o _______.exe
+  - go build -o sleep.exe
 
 test_script:
   - go test -v -cover
   - go test -v | go2xunit -xunitnet > xunit-report.xml
-  - _______.exe -version
+  - sleep.exe -version
+  - sleep.exe 0.5
 
 artifacts:
-  - path: ________.exe
-    name: ________
+  - path: sleep.exe
+    name: Sleep
 
 deploy: off
 
