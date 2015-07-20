@@ -4,9 +4,11 @@ import (
 	"flag"
 	"log"
 	"fmt"
+	"time"
+	"os"
 )
 
-const version string = "1.2.0"
+const version string = "1.0.0"
 
 // command line flags
 var showVersion bool
@@ -18,10 +20,27 @@ func init() {
 func main() {
 	log.SetFlags(0)
 	flag.Parse()
+	setCustomUsage()
 
 	if showVersion {
-		fmt.Println("timer version", version)
+		fmt.Println("sleep version", version)
 	} else {
-		// TODO
+		if flag.NArg() != 1 {
+			flag.Usage()
+		}
+		d, err := time.ParseDuration(flag.Arg(0)+"s")
+		if err != nil {
+			log.Fatalln(err)
+		}
+		time.Sleep(d)
+	}
+}
+
+// Redefines flag.Usage() function.
+func setCustomUsage() {
+	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr, "Usage: %s seconds\n", os.Args[0])
+		flag.PrintDefaults()
+		os.Exit(1)
 	}
 }

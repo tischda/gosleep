@@ -6,6 +6,7 @@ import (
 	"os/exec"
 	"strings"
 	"testing"
+	"time"
 )
 
 // Inspired by https://talks.golang.org/2014/testing.slide#23
@@ -36,5 +37,31 @@ func TestUsage(t *testing.T) {
 
 	if !strings.Contains(actual, expected) {
 		t.Errorf("Expected: %s, but was: %s", expected, actual)
+	}
+}
+
+func TestSleep(t *testing.T) {
+
+	if os.Getenv("BE_CRASHER") == "1" {
+		main()
+		return
+	}
+	cmd := exec.Command(os.Args[0], "-test.run=TestSleep", "0.5")
+	cmd.Env = append(os.Environ(), "BE_CRASHER=1")
+
+	start := time.Now()
+	err := cmd.Run()
+	stop := time.Now()
+
+	// check return code
+	if e, ok := err.(*exec.ExitError); ok && !e.Success() {
+		t.Fatalf("Exptected exit status 0, but was: %v, ", err)
+	}
+
+	actual := stop.Sub(start)
+	expected := time.Duration(500 * time.Millisecond)
+
+	if actual <  expected {
+		t.Errorf("Expected: >= %s, but was: %s", expected, actual)
 	}
 }
