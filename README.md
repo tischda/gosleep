@@ -1,4 +1,4 @@
-﻿# sleep [![Build status](https://ci.appveyor.com/api/projects/status/au8q12tabnam2t9a?svg=true)](https://ci.appveyor.com/project/tischda/timer)
+﻿# sleep [![Build status](https://ci.appveyor.com/api/projects/status/?svg=true)](https://ci.appveyor.com/project/tischda/sleep)
 
 Utility written in [Go](https://www.golang.org) to sleep for X seconds.
 
@@ -13,10 +13,14 @@ go get github.com/tischda/sleep
 ### Usage
 
 ~~~
+Usage: sleep seconds
+  -version=false: print version and exit
 ~~~
 
 Example:
 
 ~~~
+c:> sleep 0.5
 ~~~
 
+Will sleep for 500ms.
