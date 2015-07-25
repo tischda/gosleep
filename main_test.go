@@ -41,28 +41,40 @@ func TestUsage(t *testing.T) {
 }
 
 func TestSleep(t *testing.T) {
-	for i := 0; i < 100; i++ {
-		if os.Getenv("BE_CRASHER") == "1" {
-			main()
-			return
-		}
-		cmd := exec.Command(os.Args[0], "-test.run=TestSleep", "0.2")
-		cmd.Env = append(os.Environ(), "BE_CRASHER=1")
+	params := []string{"0.1", "0.105s", "100ms", "100000us", "100000000ns"}
+	args := os.Args
+
+	for _, duration := range params {
+		os.Args = append(args, duration)
 
 		start := time.Now()
-		err := cmd.Run()
+		main()
 		stop := time.Now()
 
-		// check return code
-		if e, ok := err.(*exec.ExitError); ok && !e.Success() {
-			t.Fatalf("Expected exit status 0, but was: %v, ", err)
-		}
-
 		actual := stop.Sub(start)
-		expected := time.Duration(200 * time.Millisecond)
+		expected := time.Duration(100 * time.Millisecond)
 
-		if actual <  expected {
-			t.Errorf("Expected: >= %s, but was: %s", expected, actual)
+		if actual < expected || actual > (expected+(10*time.Millisecond)) {
+			t.Errorf("Duration: %s, Expected: %s, but was: %s", duration, expected, actual)
+		}
+	}
+}
+
+type Test struct {
+	in  string
+	out bool
+}
+
+func TestOnlyNumbers(t *testing.T) {
+	cases := []Test{
+		{"1h5m", false},
+		{"0.5", true},
+		{"1", true},
+	}
+	for _, test := range cases {
+		actual := onlyNumbers(test.in)
+		if actual != test.out {
+			t.Errorf("Expected for %s: %s, but was: %s", test.in, test.out, actual)
 		}
 	}
 }

@@ -6,9 +6,10 @@ import (
 	"fmt"
 	"time"
 	"os"
+	"regexp"
 )
 
-const version string = "1.0.1"
+const version string = "1.1.0"
 
 // command line flags
 var showVersion bool
@@ -28,7 +29,11 @@ func main() {
 		if flag.NArg() != 1 {
 			flag.Usage()
 		}
-		d, err := time.ParseDuration(flag.Arg(0)+"s")
+		delay := flag.Arg(0)
+		if onlyNumbers(delay) {
+			delay += "s" // seconds
+		}
+		d, err := time.ParseDuration(delay)
 		if err != nil {
 			log.Fatalln(err)
 		}
@@ -43,4 +48,9 @@ func setCustomUsage() {
 		flag.PrintDefaults()
 		os.Exit(1)
 	}
+}
+
+func onlyNumbers(value string) bool {
+	exp := regexp.MustCompile(`^[\d.]+$`)
+	return exp.FindString(value) != ""
 }
