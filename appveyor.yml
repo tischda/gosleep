@@ -22,7 +22,7 @@ install:
 
 build_script:
   - cd %APPVEYOR_BUILD_FOLDER%
-  - go build -o sleep.exe
+  - go build -ldflags "-s" -o sleep.exe
 
 test_script:
   - sleep.exe -version
