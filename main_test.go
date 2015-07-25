@@ -46,7 +46,7 @@ func TestSleep(t *testing.T) {
 			main()
 			return
 		}
-		cmd := exec.Command(os.Args[0], "-test.run=TestSleep", "0.1")
+		cmd := exec.Command(os.Args[0], "-test.run=TestSleep", "0.2")
 		cmd.Env = append(os.Environ(), "BE_CRASHER=1")
 
 		start := time.Now()
@@ -59,7 +59,7 @@ func TestSleep(t *testing.T) {
 		}
 
 		actual := stop.Sub(start)
-		expected := time.Duration(100 * time.Millisecond)
+		expected := time.Duration(200 * time.Millisecond)
 
 		if actual <  expected {
 			t.Errorf("Expected: >= %s, but was: %s", expected, actual)

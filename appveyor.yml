@@ -25,9 +25,9 @@ build_script:
   - go build -o sleep.exe
 
 test_script:
+  - sleep.exe -version
   - go test -v -cover
   - go test -v | go2xunit -xunitnet > xunit-report.xml
-  - sleep.exe -version
   - sleep.exe 0.5
 
 artifacts:
