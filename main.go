@@ -8,7 +8,10 @@ import (
 	"os"
 )
 
-const version string = "1.0.0"
+const version string = "1.0.1"
+
+// subtract process startup overhead from requested duration
+const delay = time.Duration(14 * time.Millisecond)
 
 // command line flags
 var showVersion bool
@@ -32,7 +35,7 @@ func main() {
 		if err != nil {
 			log.Fatalln(err)
 		}
-		time.Sleep(d)
+		time.Sleep(d - delay)
 	}
 }
 

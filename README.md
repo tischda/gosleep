@@ -23,4 +23,4 @@ Example:
 c:> sleep 0.5
 ~~~
 
-Will sleep for 500ms.
+Will sleep for 500ms (sleeping time is not accurate below 14ms).

@@ -27,7 +27,7 @@ func TestUsage(t *testing.T) {
 
 	// check return code
 	if e, ok := err.(*exec.ExitError); ok && e.Success() {
-		t.Fatalf("Exptected exit status 1, but was: %v, ", err)
+		t.Fatalf("Expected exit status 1, but was: %v, ", err)
 	}
 
 	// now check that Usage message is displayed
@@ -41,27 +41,28 @@ func TestUsage(t *testing.T) {
 }
 
 func TestSleep(t *testing.T) {
+	for i := 0; i < 100; i++ {
+		if os.Getenv("BE_CRASHER") == "1" {
+			main()
+			return
+		}
+		cmd := exec.Command(os.Args[0], "-test.run=TestSleep", "0.1")
+		cmd.Env = append(os.Environ(), "BE_CRASHER=1")
 
-	if os.Getenv("BE_CRASHER") == "1" {
-		main()
-		return
-	}
-	cmd := exec.Command(os.Args[0], "-test.run=TestSleep", "0.5")
-	cmd.Env = append(os.Environ(), "BE_CRASHER=1")
+		start := time.Now()
+		err := cmd.Run()
+		stop := time.Now()
 
-	start := time.Now()
-	err := cmd.Run()
-	stop := time.Now()
+		// check return code
+		if e, ok := err.(*exec.ExitError); ok && !e.Success() {
+			t.Fatalf("Expected exit status 0, but was: %v, ", err)
+		}
 
-	// check return code
-	if e, ok := err.(*exec.ExitError); ok && !e.Success() {
-		t.Fatalf("Exptected exit status 0, but was: %v, ", err)
-	}
+		actual := stop.Sub(start)
+		expected := time.Duration(100 * time.Millisecond)
 
-	actual := stop.Sub(start)
-	expected := time.Duration(500 * time.Millisecond)
-
-	if actual <  expected {
-		t.Errorf("Expected: >= %s, but was: %s", expected, actual)
+		if actual <  expected {
+			t.Errorf("Expected: >= %s, but was: %s", expected, actual)
+		}
 	}
 }
