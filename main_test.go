@@ -74,7 +74,7 @@ func TestOnlyNumbers(t *testing.T) {
 	for _, test := range cases {
 		actual := onlyNumbers(test.in)
 		if actual != test.out {
-			t.Errorf("Expected for %s: %s, but was: %s", test.in, test.out, actual)
+			t.Errorf("Expected for %s: %t, but was: %t", test.in, test.out, actual)
 		}
 	}
 }

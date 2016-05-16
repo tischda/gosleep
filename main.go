@@ -2,11 +2,11 @@ package main
 
 import (
 	"flag"
-	"log"
 	"fmt"
-	"time"
+	"log"
 	"os"
 	"regexp"
+	"time"
 )
 
 // http://technosophos.com/2014/06/11/compile-time-string-in-go.html
