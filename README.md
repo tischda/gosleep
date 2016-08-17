@@ -1,4 +1,4 @@
-﻿# gosleep [![Build status](https://ci.appveyor.com/api/projects/status/7en2vn95tptff7n7?svg=true)](https://ci.appveyor.com/project/tischda/gosleep)
+﻿# gosleep [![Build status](https://ci.appveyor.com/api/projects/status/ymwk8atrb6tiig2y?svg=true)](https://ci.appveyor.com/project/tischda/gosleep)
 
 Utility written in [Go](https://www.golang.org) to sleep for X seconds.
 
