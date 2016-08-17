@@ -20,11 +20,11 @@ Usage: gosleep seconds
 Examples:
 
 ~~~
-c:> sleep 0.1
-c:> sleep 0.1s
-c:> sleep 100ms
-c:> sleep 100000us
-c:> sleep 100000000ns
+gosleep 0.1
+gosleep 0.1s
+gosleep 100ms
+gosleep 100000us
+gosleep 100000000ns
 ~~~
 
 Will sleep for 100ms (see [ParseDuration](http://golang.org/pkg/time/#ParseDuration) for time formats).
