@@ -23,14 +23,14 @@ build_script:
   - go build -ldflags "-X main.version=%version% -s"
 
 test_script:
-  - sleep.exe -version
+  - gosleep.exe -version
   - go test -v -cover
   - go test -v | go2xunit -xunitnet > xunit-report.xml
-  - sleep.exe 0.5
+  - gosleep.exe 0.5
 
 artifacts:
-  - path: sleep.exe
-    name: Sleep
+  - path: gosleep.exe
+    name: GoSleep
 
 deploy: off
 

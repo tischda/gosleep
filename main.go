@@ -10,7 +10,7 @@ import (
 )
 
 // http://technosophos.com/2014/06/11/compile-time-string-in-go.html
-// go build -ldflags "-x main.version $(git describe --tags)"
+// go build -ldflags "-x main.version=$(git describe --tags)"
 var version string
 
 // command line flags
@@ -26,7 +26,7 @@ func main() {
 	setCustomUsage()
 
 	if showVersion {
-		fmt.Println("sleep version", version)
+		fmt.Println("gosleep version", version)
 	} else {
 		if flag.NArg() != 1 {
 			flag.Usage()
