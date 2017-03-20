@@ -13,19 +13,32 @@ go get github.com/tischda/gosleep
 ### Usage
 
 ~~~
-Usage: gosleep seconds
-  -version=false: print version and exit
+Usage: gosleep [options] duration (default unit = seconds)
+
+OPTIONS:
+  -quiet
+    	do not print anything
+  -version
+    	print version and exit
 ~~~
 
 Examples:
 
 ~~~
-gosleep 0.1
-gosleep 0.1s
-gosleep 100ms
-gosleep 100000us
-gosleep 100000000ns
+$ gosleep 3s                                                                                                                                  [21:53]
+[░░░░░░░░░░] 100%
 ~~~
 
-Will sleep for 100ms (see [ParseDuration](http://golang.org/pkg/time/#ParseDuration) for time formats).
+Will sleep for 3s (see [ParseDuration](http://golang.org/pkg/time/#ParseDuration) for time formats).
 
+
+### Known issues
+
+Accuracy for actual sleeping time is not fantastic, but the delta should be under 20ms.
+
+
+### Inspiration
+
+* https://github.com/tianon/gosleep
+* https://github.com/cheggaaa/pb
+* https://github.com/gosuri/uiprogress

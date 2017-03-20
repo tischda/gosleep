@@ -16,7 +16,7 @@ get:
 	go get
 
 test: vet
-	go test -v -cover
+	go test -cover -count 10
 
 cover:
 	go test -coverprofile=coverage.out

@@ -3,56 +3,33 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
 	"os"
-	"regexp"
-	"time"
 )
 
-// http://technosophos.com/2014/06/11/compile-time-string-in-go.html
-// go build -ldflags "-x main.version=$(git describe --tags)"
 var version string
-
-// command line flags
-var showVersion bool
+var quiet bool
 
 func init() {
-	flag.BoolVar(&showVersion, "version", false, "print version and exit")
-}
-
-func main() {
-	log.SetFlags(0)
-	flag.Parse()
-	setCustomUsage()
-
-	if showVersion {
-		fmt.Println("gosleep version", version)
-	} else {
-		if flag.NArg() != 1 {
-			flag.Usage()
-		}
-		delay := flag.Arg(0)
-		if onlyNumbers(delay) {
-			delay += "s" // seconds
-		}
-		d, err := time.ParseDuration(delay)
-		if err != nil {
-			log.Fatalln(err)
-		}
-		time.Sleep(d)
-	}
-}
-
-// Redefines flag.Usage() function.
-func setCustomUsage() {
 	flag.Usage = func() {
-		fmt.Fprintf(os.Stderr, "Usage: %s seconds\n", os.Args[0])
+		fmt.Fprintln(os.Stderr, "Usage: gosleep [options] duration (default unit = seconds)")
+		fmt.Fprintln(os.Stderr, "\nOPTIONS:")
 		flag.PrintDefaults()
 		os.Exit(1)
 	}
 }
 
-func onlyNumbers(value string) bool {
-	exp := regexp.MustCompile(`^[\d.]+$`)
-	return exp.FindString(value) != ""
+func main() {
+	var showVersion = flag.Bool("version", false, "print version and exit")
+	flag.BoolVar(&quiet, "quiet", false, "do not print anything")
+
+	flag.Parse()
+
+	if flag.NArg() != 1 {
+		flag.Usage()
+	}
+	if flag.Arg(0) == "version" || *showVersion {
+		fmt.Println("gosleep version", version)
+	} else {
+		sleep(flag.Arg(0))
+	}
 }
