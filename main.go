@@ -24,11 +24,10 @@ func main() {
 
 	flag.Parse()
 
-	if flag.NArg() != 1 {
-		flag.Usage()
-	}
 	if flag.Arg(0) == "version" || *showVersion {
 		fmt.Println("gosleep version", version)
+	} else if flag.NArg() != 1 {
+		flag.Usage()
 	} else {
 		sleep(flag.Arg(0))
 	}
