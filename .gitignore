@@ -1,3 +1,5 @@
 *.exe
+coverage.out
 dist/
+releaseinfo
 gosleep
